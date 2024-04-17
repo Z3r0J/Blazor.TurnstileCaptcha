@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34511.98
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurnstileCaptcha", "TurnstileCaptcha\TurnstileCaptcha\TurnstileCaptcha.csproj", "{4DF587D2-AC09-43B5-BC45-71B0A5E4A826}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurnstileCaptcha.Client", "TurnstileCaptcha\TurnstileCaptcha.Client\TurnstileCaptcha.Client.csproj", "{535EE7A1-F1F0-47E3-8081-0E9B219E6508}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DF587D2-AC09-43B5-BC45-71B0A5E4A826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF587D2-AC09-43B5-BC45-71B0A5E4A826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF587D2-AC09-43B5-BC45-71B0A5E4A826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF587D2-AC09-43B5-BC45-71B0A5E4A826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535EE7A1-F1F0-47E3-8081-0E9B219E6508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535EE7A1-F1F0-47E3-8081-0E9B219E6508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535EE7A1-F1F0-47E3-8081-0E9B219E6508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535EE7A1-F1F0-47E3-8081-0E9B219E6508}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4447D0B7-B9FF-4A45-BFB9-49356254DB29}
+	EndGlobalSection
+EndGlobal
