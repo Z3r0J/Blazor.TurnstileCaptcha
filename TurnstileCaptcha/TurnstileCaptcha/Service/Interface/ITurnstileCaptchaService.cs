@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using TurnstileCaptcha.Client.Extensions;
+using TurnstileCaptcha.Extensions;
 
 namespace TurnstileCaptcha.Client.Service.Interface;
 
@@ -16,5 +16,6 @@ public interface ITurnstileCaptchaService
     ValueTask ResetAsync(string widgetId);
 
     ValueTask RemoveAsync(string widgetId);
+    Task<TurnstileResponseModel?> ValidateCaptchaAsync(TurnstileRequestModel requestModel);
 
 }

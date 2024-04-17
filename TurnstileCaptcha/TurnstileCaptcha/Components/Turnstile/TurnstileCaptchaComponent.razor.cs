@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
-using TurnstileCaptcha.Client.Extensions;
 using TurnstileCaptcha.Client.Service;
 using TurnstileCaptcha.Client.Service.Interface;
+using TurnstileCaptcha.Extensions;
 
 namespace TurnstileCaptcha.Components.Turnstile;
 
@@ -19,6 +19,9 @@ public partial class TurnstileCaptchaComponent
     [Inject] private CacheContainer _cacheContainer { get; set; }
 
 
+    [Parameter] public string? Token { get; set; }
+    [Parameter] public EventCallback<string> TokenChanged { get; set; }
+
     [Parameter] public TurnstileTheme? Theme { get; set; }
 
     [Parameter] public TurnstileSize? Size { get; set; }
@@ -29,12 +32,18 @@ public partial class TurnstileCaptchaComponent
 
     [Parameter] public TurnstileLanguage? Language { get; set; }
 
+    [Parameter] public EventCallback<string> OnSuccessCallback { get; set; }
+
+    [Parameter] public EventCallback<string> OnErrorCallback { get; set; }
+
+
+    private Func<TurnstileRequestModel, Task<TurnstileResponseModel?>> ServerSideValidation { get; set; }
 
     private string WidgetId { get; set; } = string.Empty;
 
     private TurnstileConfigurationDto TurnstileConfiguration { get; set; }
 
-    private ITurnstileCaptchaService _turnstileCaptchaService;
+   [Inject] private ITurnstileCaptchaService TurnstileCaptchaService { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -47,9 +56,15 @@ public partial class TurnstileCaptchaComponent
     protected override Task OnInitializedAsync()
     {
         _turnstileCaptchaComponent = DotNetObjectReference.Create(this);
-        _turnstileCaptchaService = new TurnstileCaptchaService(_jsRuntime);
+
+        ServerSideValidation = HandleServerSideRequest;
 
         return base.OnInitializedAsync();
+    }
+
+    private Task<TurnstileResponseModel?> HandleServerSideRequest(TurnstileRequestModel arg)
+    {
+        return TurnstileCaptchaService.ValidateCaptchaAsync(arg);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -94,7 +109,7 @@ public partial class TurnstileCaptchaComponent
             Language?.ToString()
         );
 
-        WidgetId = await _turnstileCaptchaService.RenderAsync(
+        WidgetId = await TurnstileCaptchaService.RenderAsync(
             _turnstileCaptchaComponent,
             Element,
             TurnstileConfiguration
@@ -103,13 +118,11 @@ public partial class TurnstileCaptchaComponent
 
     [JSInvokable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public virtual async ValueTask OnCaptchaResolved(string? response)
+    public virtual async ValueTask OnCaptchaResolved(string response)
     {
         try
         {
-            Console.WriteLine(response);
-
-            await _turnstileCaptchaService.ResetAsync(WidgetId);
+            var result = await HandleServerSideRequest(new(response));
         }
         catch (Exception e)
         {
@@ -119,3 +132,4 @@ public partial class TurnstileCaptchaComponent
     }
 
 }
+

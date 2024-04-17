@@ -1,6 +1,6 @@
-using TurnstileCaptcha.Client.Extensions;
 using TurnstileCaptcha.Client.Pages;
 using TurnstileCaptcha.Components;
+using TurnstileCaptcha.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient("TurnstileClient",
+    client => client.BaseAddress = new Uri(builder.Configuration["CloudflareAPI"] ?? "/"));
 
 builder.Services.AddTurnstileConfiguration(configuration =>
 {

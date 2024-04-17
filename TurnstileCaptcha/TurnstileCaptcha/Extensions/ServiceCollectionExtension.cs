@@ -1,4 +1,9 @@
-﻿namespace TurnstileCaptcha.Client.Extensions;
+﻿using System.Text.Json.Serialization;
+using TurnstileCaptcha.Client.Service;
+using TurnstileCaptcha.Client.Service.Interface;
+using TurnstileCaptcha.Service;
+
+namespace TurnstileCaptcha.Extensions;
 
 public static class ServiceCollectionExtension
 {
@@ -6,9 +11,10 @@ public static class ServiceCollectionExtension
         Action<TurnstileConfiguration> configuration)
     {
         service.Configure(configuration);
-
         service.AddScoped<CacheContainer>();
-        
+        service.AddScoped<ITurnstileCaptchaService, TurnstileCaptchaService>();
+
+
         return service;
     }
 }
@@ -91,3 +97,26 @@ public record TurnstileConfigurationDto(
     string? Size,
     string? Language
 );
+
+
+public record TurnstileRequestModel(string Response);
+
+public class TurnstileResponseModel
+{
+    [JsonPropertyName("success")]
+    public bool Success { get; set; }
+
+    [JsonPropertyName("challenge_ts")]
+    public string? ChallengeTs { get; set; }
+
+    [JsonPropertyName("")]
+
+    public string? Hostname { get; set; }
+
+    [JsonPropertyName("error-codes")]
+
+    public List<string?> ErrorCodes { get; set; }
+
+
+
+}
